@@ -3,18 +3,20 @@ Takes a list of hosts (one per line) and outputs the corresponding IP address.
 Usefull when dealing with an output from [Sublist3r](https://github.com/aboul3la/Sublist3r) to know which hosts still resolve to an IP address.
 
 ## Usage
+(Version 2)
 
 ### Oneliner
+(Make sure to wait a couple of seconds after executing the command to give time for threads to finish)
 
 ```
-i=1;rm -f host2IP;while read site;do host=$(host $site | grep -v "not found" |tr '\n' ' '| cut -d " " -f1); add=$(host $site | grep -v "not found" |tr '\n' ' '|cut -d " " -f4); [ ! -z "$host" ] && echo "$host ==> $add" >> host2IP;echo $i / $(wc -l /dev/stdin|cut -d " " -f1);let "i++";done < hosts_file
+rm -f host2IP; read -p "Domain: " domain; task(){ result=$(host $site | grep "has.*address" | tr -d "\n"); host=$(echo $result | cut -d " " -f1); add=$(echo $result | rev | cut -d " " -f1 | rev); if echo "$host" | grep "${domain}$" > /dev/null; then echo "$host ==> $add" >> host2IP;fi; };while read site;do (task $site &) done < hosts_file
 ```
 
 ### Script
 (Make sure it's executable - sudo chmod +x resolv2IP.sh)
 
 ```
-./resolv2IP.sh hosts_file
+./resolv2IP_v2.sh hosts_file
 ```
 
 
