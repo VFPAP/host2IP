@@ -13,7 +13,7 @@ rm -f host2IP; read -p "Domain: " domain; task(){ result=$(host $site | grep "ha
 ```
 
 ### Script
-(Make sure it's executable - sudo chmod +x resolv2IP.sh)
+(Make sure it's executable - sudo chmod +x resolv2IP_v2.sh)
 
 ```
 ./resolv2IP_v2.sh hosts_file
